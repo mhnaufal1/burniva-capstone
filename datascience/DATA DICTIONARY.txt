@@ -1,0 +1,169 @@
+ABOUT DATASET
+Student Mental Health and Burnout Dataset
+
+A. Deskripsi Singkat Dataset
+
+Student Mental Health and Burnout Dataset merupakan dataset sintetis yang menggambarkan hubungan antara tekanan akademik, kebiasaan hidup, perilaku digital, faktor lingkungan, dan kondisi kesehatan mental mahasiswa. Dataset ini terdiri dari 1.000.000 baris data dan 20 variabel awal. Dataset ini digunakan untuk menyiapkan data yang siap dipakai pada tahap pemodelan machine learning. Tujuan akhirnya adalah mendukung pengembangan aplikasi atau website berbasis mini quiz yang dapat memperkirakan kondisi burnout dan kesehatan mental mahasiswa berdasarkan input yang diberikan oleh pengguna.
+
+Dalam proses pengolahan data, dataset disiapkan menjadi beberapa file, yaitu:
+1. Dataset awal yang berisi variabel asli sebelum proses pembersihan "student_mental_health_burnout_1M.csv"
+2. Dataset hasil feature selection yang berisi 10 fitur terpilih dan 4 target "student_mental_health_selected_features.csv"
+3. Dataset hasil standardisasi yang berisi data dengan fitur numerik yang telah distandardisasi "student_mental_health_scaled.csv"
+
+Dataset dapat diakses melalui: https://drive.google.com/drive/folders/1GTRb6SjEelh5lidyL6qOW16SoPWKwO9x?usp=sharing
+
+B. Penjelasan Variabel Awal Dataset
+
+1. age
+Usia mahasiswa dalam rentang 17 sampai 29 tahun.
+
+2. gender
+Jenis kelamin mahasiswa, seperti Male, Female, dan Other.
+
+3. academic_year
+Tahun akademik atau tingkat studi mahasiswa, mulai dari tahun ke-1 sampai tahun ke-4.
+
+4. study_hours_per_day
+Rata-rata durasi belajar mahasiswa per hari dalam satuan jam.
+
+5. exam_pressure
+Tingkat tekanan yang dirasakan mahasiswa terkait ujian, dengan skala 1 sampai 10.
+
+6. academic_performance
+Nilai performa akademik mahasiswa, berada pada rentang 0 sampai 100.
+
+7. stress_level
+Tingkat stres mahasiswa secara umum, dengan skala 0 sampai 10.
+
+8. anxiety_score
+Skor kecemasan mahasiswa, dengan skala 0 sampai 10.
+
+9. depression_score
+Skor depresi mahasiswa, dengan skala 0 sampai 10.
+
+10. sleep_hours
+Rata-rata durasi tidur mahasiswa dalam satuan jam.
+
+11. physical_activity
+Durasi aktivitas fisik mahasiswa per minggu.
+
+12. social_support
+Tingkat dukungan sosial atau emosional yang diterima mahasiswa, dengan skala 0 sampai 10.
+
+13. screen_time
+Durasi penggunaan layar atau perangkat digital per hari dalam satuan jam.
+
+14. internet_usage
+Durasi penggunaan internet per hari dalam satuan jam.
+
+15. financial_stress
+Tingkat tekanan finansial yang dirasakan mahasiswa, dengan skala 0 sampai 10.
+
+16. family_expectation
+Tingkat ekspektasi keluarga yang dirasakan mahasiswa, dengan skala 0 sampai 10.
+
+17. burnout_score
+Skor burnout mahasiswa dalam rentang 0 sampai 10. Semakin tinggi nilainya, semakin tinggi indikasi burnout.
+
+18. mental_health_index
+Indeks kesehatan mental mahasiswa dalam rentang 0 sampai 10. Semakin tinggi nilainya, semakin baik kondisi kesehatan mental.
+
+19. risk_level
+Kategori tingkat risiko burnout mahasiswa, terdiri dari Low, Medium, dan High.
+
+20. dropout_risk
+Prediksi risiko mahasiswa untuk berhenti studi, dengan skala 0 sampai 10.
+
+C. Penyesuaian Dataset
+
+Pada proses pengolahan data, kolom dropout_risk dihapus karena tidak relevan dengan tujuan pengembangan aplikasi. Fokus aplikasi diarahkan pada pemantauan burnout dan kondisi kesehatan mental mahasiswa, bukan pada prediksi risiko berhenti studi.
+
+Selain itu, dibuat satu target baru yaitu mental_health_category. Target ini dibuat berdasarkan proses binning dari mental_health_index.
+
+Kategori mental_health_category:
+- Buruk: nilai mental_health_index 0 sampai kurang dari 4
+- Sedang: nilai mental_health_index 4 sampai kurang dari 7
+- Baik: nilai mental_health_index 7 sampai 10
+
+D. File Dataset Hasil Feature Selection
+
+File hasil feature selection berisi 10 variabel fitur dan 4 variabel target. Feature selection dilakukan secara supervised, yaitu pemilihan fitur mempertimbangkan hubungan antara fitur input dan target.
+
+Metode yang digunakan dalam feature selection adalah:
+- Filter Method menggunakan Mutual Information
+- Embedded Method menggunakan Random Forest Feature Importance
+- Voting Feature Selection untuk memilih fitur yang paling sering muncul sebagai fitur penting
+
+10 fitur terpilih dalam dataset hasil feature selection adalah:
+
+1. stress_level
+Tingkat stres mahasiswa secara umum, dengan skala 0 sampai 10.
+
+2. anxiety_score
+Skor kecemasan mahasiswa, dengan skala 0 sampai 10.
+
+3. depression_score
+Skor depresi mahasiswa, dengan skala 0 sampai 10.
+
+4. exam_pressure
+Tingkat tekanan yang dirasakan mahasiswa terkait ujian, dengan skala 1 sampai 10.
+
+5. sleep_hours
+Rata-rata durasi tidur mahasiswa dalam satuan jam.
+
+6. study_hours_per_day
+Rata-rata durasi belajar mahasiswa per hari dalam satuan jam.
+
+7. financial_stress
+Tingkat tekanan finansial yang dirasakan mahasiswa, dengan skala 0 sampai 10.
+
+8. family_expectation
+Tingkat ekspektasi atau tekanan keluarga yang dirasakan mahasiswa, dengan skala 0 sampai 10.
+
+9. social_support
+Tingkat dukungan sosial atau emosional yang diterima mahasiswa, dengan skala 0 sampai 10.
+
+10. physical_activity
+Durasi aktivitas fisik mahasiswa, dinyatakan dalam jam per minggu.
+
+4 variabel target dalam dataset hasil feature selection adalah:
+
+1. burnout_score
+Target regresi untuk memperkirakan skor burnout mahasiswa dalam rentang 0 sampai 10.
+
+2. mental_health_index
+Target regresi untuk memperkirakan indeks kesehatan mental mahasiswa dalam rentang 0 sampai 10.
+
+3. risk_level
+Target klasifikasi untuk menentukan tingkat risiko burnout mahasiswa.
+
+Mapping:
+- Low = 0
+- Medium = 1
+- High = 2
+
+4. mental_health_category
+Target klasifikasi untuk menentukan kategori kesehatan mental mahasiswa berdasarkan hasil binning dari mental_health_index.
+
+Mapping:
+- Buruk = 0
+- Sedang = 1
+- Baik = 2
+
+E. File Dataset Hasil Standardisasi
+
+File dataset hasil standardisasi merupakan versi dataset yang fitur numeriknya telah distandardisasi. Standardisasi dilakukan agar fitur numerik memiliki skala yang lebih seimbang.
+
+Standardisasi dilakukan menggunakan konsep:
+
+nilai standar = (nilai asli - rata-rata) / standar deviasi
+
+Standardisasi hanya dilakukan pada fitur input numerik, bukan pada variabel target. Hal ini dilakukan agar makna target tetap terjaga.
+
+Contoh target yang tidak distandardisasi:
+- burnout_score
+- mental_health_index
+- risk_level
+- mental_health_category
+
+Dataset hasil standardisasi dapat digunakan untuk algoritma machine learning yang sensitif terhadap skala data, Sementara itu, dataset tanpa standardisasi tetap dapat digunakan untuk model berbasis tree yang lebih tahan.
