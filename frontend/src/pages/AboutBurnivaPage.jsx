@@ -13,7 +13,7 @@ import AboutFooter from '../components/about/AboutFooter'
 
 function AboutBurnivaPage() {
   return (
-    <div className="min-h-screen font-sans bg-white">
+    <div className="min-h-screen font-sans bg-white overflow-x-hidden">
       <AboutNavbar />
       
       <main>
