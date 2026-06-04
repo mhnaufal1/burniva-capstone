@@ -96,7 +96,7 @@ function Profile() {
     }
 
     try {
-      if (passwords.new || passwords.old) {
+      if (passwords.new || passwords.old || passwords.confirm) {
         if (!passwords.old) {
           setSecurityErrorMsg("Silakan masukkan kata sandi lama untuk mengubah kata sandi.");
           return;

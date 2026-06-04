@@ -104,13 +104,9 @@ const parseGeminiResponse = (text) => {
  */
 const generatePersonalizedTodos = async (burnoutPrediction, mentalHealthPrediction, assessmentInput, totalScore) => {
   try {
-    // Check if API key exists
-    if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'dummy_key') {
-      console.warn("⚠️ GEMINI_API_KEY is missing or dummy. Using fallback todos.");
-      return { todos: getFallbackTodos(totalScore), source: 'fallback' };
-    }
+    const apiKey = process.env.GEMINI_API_KEY || "";
 
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ 
       model: "gemini-flash-latest",
       generationConfig: {

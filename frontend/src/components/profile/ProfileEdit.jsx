@@ -170,9 +170,9 @@ function ProfileEdit({
         )}
 
         <div className="flex flex-col gap-5">
-          <Input label="Kata Sandi Lama" name="old" type="password" value={passwords.old} onChange={onPasswordChange} placeholder="••••••••" />
-          <Input label="Kata Sandi Baru" name="new" type="password" value={passwords.new} onChange={onPasswordChange} placeholder="••••••••" hint="Minimal 6 karakter" />
-          <Input label="Konfirmasi Kata Sandi" name="confirm" type="password" value={passwords.confirm} onChange={onPasswordChange} placeholder="••••••••" />
+          <Input label="Kata Sandi Lama" name="old" type="password" value={passwords.old} onChange={onPasswordChange} placeholder="••••••••" autoComplete="new-password" />
+          <Input label="Kata Sandi Baru" name="new" type="password" value={passwords.new} onChange={onPasswordChange} placeholder="••••••••" hint="Minimal 6 karakter" autoComplete="new-password" />
+          <Input label="Konfirmasi Kata Sandi" name="confirm" type="password" value={passwords.confirm} onChange={onPasswordChange} placeholder="••••••••" autoComplete="new-password" />
         </div>
       </div>
 
