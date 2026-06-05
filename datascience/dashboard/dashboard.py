@@ -25,7 +25,7 @@ st.write(f"DATA_PATH: {DATA_PATH}")
 st.write(f"DATA_PATH exists: {DATA_PATH.exists()}")
 
 
-#Load dataset
+# Load dataset
 if DATA_PATH.exists(): 
     st.write("DATA_PATH size:", DATA_PATH.stat().st_size, "bytes")
     df = pd.read_csv(DATA_PATH) 
