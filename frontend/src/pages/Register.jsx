@@ -1,93 +1,98 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Mail, Lock, User, ArrowLeft } from 'lucide-react'
-import { ROUTES } from '../utils/constants'
-import Input from '../components/ui/Input'
-import Button from '../components/ui/Button'
-import authService from '../services/auth/authService'
-import bgRegister from "../assets/bg-register.png"
-import logoW from '../assets/icons/Logo-W.svg'
-import logoCol from '../assets/icons/Logo.svg'
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Mail, Lock, User, ArrowLeft } from "lucide-react";
+import { ROUTES } from "../utils/constants";
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
+import authService from "../services/auth/authService";
+import bgRegister from "../assets/bg-register.png";
+import logoW from "../assets/icons/Logo-W.svg";
+import logoCol from "../assets/icons/Logo.svg";
 
 function Register() {
-  const navigate = useNavigate()
-  const [step, setStep] = useState(1)
+  const navigate = useNavigate();
+  const [step, setStep] = useState(1);
   const [form, setForm] = useState({
-    nama: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  })
-  const [errors, setErrors] = useState({})
-  const [loading, setLoading] = useState(false)
+    nama: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (field, value) => {
-    setForm(prev => ({ ...prev, [field]: value }))
-    if (errors[field]) setErrors(prev => ({ ...prev, [field]: '' }))
-  }
+    setForm((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: "" }));
+  };
 
   const validateStep1 = () => {
-    const e = {}
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const e = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!form.nama.trim()) {
-      e.nama = 'Nama lengkap wajib diisi'
+      e.nama = "Nama lengkap wajib diisi";
     }
 
     if (!emailRegex.test(form.email)) {
-      e.email = 'Format email tidak valid'
+      e.email = "Format email tidak valid";
     }
 
-    return e
-  }
+    return e;
+  };
 
   const validateStep2 = () => {
-    const e = {}
-    if (form.password.length < 6) e.password = 'Kata sandi minimal 6 karakter'
+    const e = {};
+    if (form.password.length < 6) e.password = "Kata sandi minimal 6 karakter";
     if (form.password !== form.confirmPassword) {
-      e.confirmPassword = 'Konfirmasi kata sandi tidak cocok'
+      e.confirmPassword = "Konfirmasi kata sandi tidak cocok";
     }
-    return e
-  }
+    return e;
+  };
 
   const handleNext = () => {
-    const newErrors = validateStep1()
-    if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return }
-    setStep(2)
-  }
+    const newErrors = validateStep1();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    setStep(2);
+  };
 
   const handleSubmit = async () => {
-    const newErrors = validateStep2()
-    if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return }
-    setLoading(true)
+    const newErrors = validateStep2();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    setLoading(true);
     try {
       await authService.register({
         nama: form.nama,
         email: form.email,
         password: form.password,
-        confirmPassword: form.confirmPassword
-      })
-      navigate(ROUTES.LOGIN)
+        confirmPassword: form.confirmPassword,
+      });
+      navigate(ROUTES.LOGIN);
     } catch (err) {
       const message =
         err.response?.data?.message ||
         err.response?.data?.error ||
-        'Pendaftaran gagal, coba lagi'
+        "Pendaftaran gagal, coba lagi";
 
       setErrors({
-        general: message
-      })
+        general: message,
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const isStep1Disabled = !form.nama || !form.email
-  const isStep2Disabled = !form.password || !form.confirmPassword
+  const isStep1Disabled = !form.nama || !form.email;
+  const isStep2Disabled = !form.password || !form.confirmPassword;
 
   return (
     <div className="flex min-h-screen">
-
       <div className="hidden lg:flex w-[52%] relative flex-col overflow-hidden flex-shrink-0">
         <img
           src={bgRegister}
@@ -97,59 +102,77 @@ function Register() {
         <div className="absolute inset-0 bg-black/35" />
 
         <div className="relative z-10 flex items-start justify-between p-10">
-          <img src={logoW} alt="Logo" className="w-12 h-12 object-contain shrink-0" />
+          <img
+            src={logoW}
+            alt="Logo"
+            className="w-12 h-12 object-contain shrink-0"
+          />
 
           <div className="max-w-xs">
             <h2 className="text-2xl font-bold text-white leading-snug mb-2">
-              Kendalikan perjalanan<br />kesehatan mental kamu.
+              Kendalikan perjalanan
+              <br />
+              kesehatan mental kamu.
             </h2>
             <p className="text-sm text-white/70 leading-relaxed">
-              Deteksi burnout berbasis AI, pelacakan harian, dan rekomendasi yang dipersonalisasi. Semua dalam satu tempat yang tenang dan fokus.
+              Deteksi burnout berbasis AI, pelacakan harian, dan rekomendasi
+              yang dipersonalisasi. Semua dalam satu tempat yang tenang dan
+              fokus.
             </p>
           </div>
         </div>
 
         <div className="flex-1" />
-        <p className="relative z-10 px-10 pb-6 text-xs text-white/40">© 2026 BURNIVA</p>
+        <p className="relative z-10 px-10 pb-6 text-xs text-white/40">
+          © 2026 BURNIVA
+        </p>
       </div>
 
       <div className="flex-1 flex flex-col bg-white relative">
-
         <div className="hidden lg:block absolute top-10 left-10">
           <button
-            onClick={step === 2 ? () => setStep(1) : () => navigate(ROUTES.HOME)}
+            onClick={
+              step === 2 ? () => setStep(1) : () => navigate(ROUTES.HOME)
+            }
             className="inline-flex items-center gap-2 text-sm text-[#6A7282] hover:text-[#0a0a0a] transition-colors"
           >
             <ArrowLeft size={16} />
-            {step === 1 ? 'Kembali ke beranda' : 'Kembali'}
+            {step === 1 ? "Kembali ke beranda" : "Kembali"}
           </button>
         </div>
 
         <div className="flex-1 flex flex-col items-center justify-center px-8 py-8">
           <div className="w-full max-w-md">
-
             <div className="block lg:hidden">
               <button
-                onClick={step === 2 ? () => setStep(1) : () => navigate(ROUTES.HOME)}
+                onClick={
+                  step === 2 ? () => setStep(1) : () => navigate(ROUTES.HOME)
+                }
                 className="inline-flex items-center gap-2 text-sm text-[#6A7282] hover:text-[#0a0a0a] transition-colors mb-4 w-fit"
               >
                 <ArrowLeft size={16} />
-                {step === 1 ? 'Kembali ke beranda' : 'Kembali'}
+                {step === 1 ? "Kembali ke beranda" : "Kembali"}
               </button>
             </div>
 
             <div
               className="bg-white rounded-2xl border border-[#E5E7EB] p-8 shadow-sm"
-              onKeyDown={e => {
-                if (e.key === 'Enter' && !loading) {
-                  if (step === 1 && !isStep1Disabled) handleNext()
-                  if (step === 2 && !isStep2Disabled) handleSubmit()
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !loading) {
+                  if (step === 1 && !isStep1Disabled) handleNext();
+                  if (step === 2 && !isStep2Disabled) handleSubmit();
                 }
               }}
             >
               <div className="flex lg:hidden items-center gap-2.5 mb-6">
-                <img src={logoCol} alt="BURNIVA" className="w-8 h-8 object-contain shrink-0" />
-                <span className="text-xl font-bold text-primary-700">BURNIVA</span>
+                <img
+                  src={logoCol}
+                  alt="BURNIVA"
+                  className="w-8 h-8 object-contain shrink-0"
+                />
+                <span className="text-xl font-bold text-primary-700">
+                  BURNIVA
+                </span>
               </div>
 
               <h1 className="text-2xl font-bold text-[#0a0a0a] mb-0.5">
@@ -157,14 +180,14 @@ function Register() {
               </h1>
 
               <p className="text-sm text-[#6A7282] mb-4">
-                Langkah {step} dari 2 -{' '}
-                {step === 1 ? 'Informasi Akun' : 'Informasi Keamanan'}
+                Langkah {step} dari 2 -{" "}
+                {step === 1 ? "Informasi Akun" : "Informasi Keamanan"}
               </p>
 
               <div className="h-1 bg-[#E5E7EB] rounded-full mb-6 overflow-hidden">
                 <div
                   className="h-full bg-primary-600 rounded-full transition-all duration-500"
-                  style={{ width: step === 1 ? '50%' : '100%' }}
+                  style={{ width: step === 1 ? "50%" : "100%" }}
                 />
               </div>
 
@@ -180,7 +203,7 @@ function Register() {
                     label="Nama Lengkap"
                     placeholder="Nama Lengkap"
                     value={form.nama}
-                    onChange={e => handleChange('nama', e.target.value)}
+                    onChange={(e) => handleChange("nama", e.target.value)}
                     error={errors.nama}
                     leftIcon={<User size={16} />}
                   />
@@ -189,7 +212,7 @@ function Register() {
                     type="email"
                     placeholder="nama@email.com"
                     value={form.email}
-                    onChange={e => handleChange('email', e.target.value)}
+                    onChange={(e) => handleChange("email", e.target.value)}
                     error={errors.email}
                     leftIcon={<Mail size={16} />}
                   />
@@ -203,7 +226,7 @@ function Register() {
                     Lanjut
                   </Button>
                   <p className="text-center text-sm text-[#6A7282]">
-                    Sudah punya akun?{' '}
+                    Sudah punya akun?{" "}
                     <Link
                       to={ROUTES.LOGIN}
                       className="text-primary-600 font-semibold hover:text-primary-700 transition-colors"
@@ -221,7 +244,7 @@ function Register() {
                     type="password"
                     placeholder="Minimal 6 karakter"
                     value={form.password}
-                    onChange={e => handleChange('password', e.target.value)}
+                    onChange={(e) => handleChange("password", e.target.value)}
                     error={errors.password}
                     leftIcon={<Lock size={16} />}
                   />
@@ -230,7 +253,9 @@ function Register() {
                     type="password"
                     placeholder="Ulangi kata sandi"
                     value={form.confirmPassword}
-                    onChange={e => handleChange('confirmPassword', e.target.value)}
+                    onChange={(e) =>
+                      handleChange("confirmPassword", e.target.value)
+                    }
                     error={errors.confirmPassword}
                     leftIcon={<Lock size={16} />}
                   />
@@ -246,14 +271,12 @@ function Register() {
                   </Button>
                 </div>
               )}
-
             </div>
           </div>
         </div>
       </div>
-
     </div>
-  )
+  );
 }
 
-export default Register
+export default Register;

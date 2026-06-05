@@ -1,28 +1,11 @@
-const express =
-require("express");
+const express = require("express");
 
-const router =
-express.Router();
+const router = express.Router();
 
-const authMiddleware =
-require("../middleware/authMiddleware");
+const authMiddleware = require("../middleware/authMiddleware");
 
-const {
+const { changePassword } = require("../controllers/userController");
 
- changePassword
+router.put("/change-password", authMiddleware, changePassword);
 
-} =
-require(
-"../controllers/userController"
-);
-
-
-// CHANGE PASSWORD
-router.put(
- "/change-password",
- authMiddleware,
- changePassword
-);
-
-module.exports =
-router;
+module.exports = router;

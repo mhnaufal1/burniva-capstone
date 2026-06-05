@@ -1,47 +1,22 @@
-const express =
-require("express");
+const express = require("express");
 
-const router =
-express.Router();
+const router = express.Router();
 
 const {
-getTodos,
-toggleTodo,
-createTodo,
-deleteTodo
-} =
-require(
-"../controllers/todoController"
-);
+  getTodos,
+  toggleTodo,
+  createTodo,
+  deleteTodo,
+} = require("../controllers/todoController");
 
-const authMiddleware =
-require(
-"../middleware/authMiddleware"
-);
+const authMiddleware = require("../middleware/authMiddleware");
 
-router.get(
-"/",
-authMiddleware,
-getTodos
-);
+router.get("/", authMiddleware, getTodos);
 
-router.post(
-"/",
-authMiddleware,
-createTodo
-);
+router.post("/", authMiddleware, createTodo);
 
-router.put(
-"/:id",
-authMiddleware,
-toggleTodo
-);
+router.put("/:id", authMiddleware, toggleTodo);
 
-router.delete(
-"/:id",
-authMiddleware,
-deleteTodo
-);
+router.delete("/:id", authMiddleware, deleteTodo);
 
-module.exports =
-router;
+module.exports = router;

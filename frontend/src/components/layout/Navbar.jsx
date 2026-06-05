@@ -1,74 +1,72 @@
-import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Menu, X, Activity } from 'lucide-react'
-import { ROUTES } from '../../utils/constants'
-import Button from '../ui/Button'
-import Logo from '../common/Logo'
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, X, Activity } from "lucide-react";
+import { ROUTES } from "../../utils/constants";
+import Button from "../ui/Button";
+import Logo from "../common/Logo";
 
 const navLinks = [
-  { label: 'Beranda', href: '#beranda' },
-  { label: 'Fitur', href: '#fitur' },
-  { label: 'Cara Kerja', href: '#cara-kerja' },
-  { label: 'Demo', href: '#demo' },
-  { label: 'FAQ', href: '#faq' },
-]
+  { label: "Beranda", href: "#beranda" },
+  { label: "Fitur", href: "#fitur" },
+  { label: "Cara Kerja", href: "#cara-kerja" },
+  { label: "Demo", href: "#demo" },
+  { label: "FAQ", href: "#faq" },
+];
 
 function Navbar() {
-  const navigate = useNavigate()
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState('beranda')
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("beranda");
 
   useEffect(() => {
     const getActiveSection = () => {
-      const offset = 96
+      const offset = 96;
 
-      let current = navLinks[0].href.replace('#', '')
+      let current = navLinks[0].href.replace("#", "");
 
       navLinks.forEach(({ href }) => {
-        const id = href.replace('#', '')
-        const section = document.getElementById(id)
+        const id = href.replace("#", "");
+        const section = document.getElementById(id);
 
-        if (!section) return
+        if (!section) return;
 
-        const sectionTop =
-          section.getBoundingClientRect().top + window.scrollY
+        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
 
         if (window.scrollY + offset >= sectionTop) {
-          current = id
+          current = id;
         }
-      })
+      });
 
-      setActiveSection(current)
-    }
+      setActiveSection(current);
+    };
 
-    getActiveSection()
+    getActiveSection();
 
-    window.addEventListener('scroll', getActiveSection, { passive: true })
-    window.addEventListener('resize', getActiveSection)
+    window.addEventListener("scroll", getActiveSection, { passive: true });
+    window.addEventListener("resize", getActiveSection);
 
     return () => {
-      window.removeEventListener('scroll', getActiveSection)
-      window.removeEventListener('resize', getActiveSection)
-    }
-  }, [])
+      window.removeEventListener("scroll", getActiveSection);
+      window.removeEventListener("resize", getActiveSection);
+    };
+  }, []);
 
   const scrollTo = (href) => {
-    setMenuOpen(false)
+    setMenuOpen(false);
 
-    const el = document.querySelector(href)
-    if (!el) return
+    const el = document.querySelector(href);
+    if (!el) return;
 
-    const offset = 80
-    const top =
-      el.getBoundingClientRect().top + window.scrollY - offset
+    const offset = 80;
+    const top = el.getBoundingClientRect().top + window.scrollY - offset;
 
     window.scrollTo({
       top,
-      behavior: 'smooth',
-    })
+      behavior: "smooth",
+    });
 
-    setActiveSection(href.replace('#', ''))
-  }
+    setActiveSection(href.replace("#", ""));
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white border-b border-slate-100">
@@ -76,7 +74,7 @@ function Navbar() {
         <Logo />
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map(({ label, href }) => {
-            const isActive = activeSection === href.replace('#', '')
+            const isActive = activeSection === href.replace("#", "");
 
             return (
               <button
@@ -84,9 +82,10 @@ function Navbar() {
                 onClick={() => scrollTo(href)}
                 className={`
                   relative py-2 text-sm transition-colors duration-300
-                  ${isActive
-                    ? 'font-bold text-primary-700'
-                    : 'font-medium text-slate-500 hover:text-slate-800'
+                  ${
+                    isActive
+                      ? "font-bold text-primary-700"
+                      : "font-medium text-slate-500 hover:text-slate-800"
                   }
                 `}
               >
@@ -96,19 +95,24 @@ function Navbar() {
                   className={`
                     absolute left-1/2 -bottom-1 h-[4px] w-[65%] -translate-x-1/2 rounded-full bg-slate-200
                     transition-all duration-300 ease-out origin-center
-                    ${isActive
-                      ? 'opacity-100 scale-x-100'
-                      : 'opacity-0 scale-x-0'
+                    ${
+                      isActive
+                        ? "opacity-100 scale-x-100"
+                        : "opacity-0 scale-x-0"
                     }
                   `}
                 />
               </button>
-            )
+            );
           })}
         </nav>
 
         <div className="hidden md:flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => navigate(ROUTES.LOGIN)}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate(ROUTES.LOGIN)}
+          >
             Masuk
           </Button>
           <Button size="sm" onClick={() => navigate(ROUTES.REGISTER)}>
@@ -136,17 +140,26 @@ function Navbar() {
             </button>
           ))}
           <div className="flex gap-2 mt-2 pt-2 border-t border-slate-100">
-            <Button variant="outline" size="sm" fullWidth onClick={() => navigate(ROUTES.LOGIN)}>
+            <Button
+              variant="outline"
+              size="sm"
+              fullWidth
+              onClick={() => navigate(ROUTES.LOGIN)}
+            >
               Masuk
             </Button>
-            <Button size="sm" fullWidth onClick={() => navigate(ROUTES.REGISTER)}>
+            <Button
+              size="sm"
+              fullWidth
+              onClick={() => navigate(ROUTES.REGISTER)}
+            >
               Mulai Sekarang
             </Button>
           </div>
         </div>
       )}
     </header>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

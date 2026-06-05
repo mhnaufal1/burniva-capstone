@@ -3,20 +3,10 @@ const jwt = require("jsonwebtoken");
 
 const { User } = require("../models");
 
-
-// REGISTER
 const register = async (req, res) => {
-
   try {
+    const { name, email, password, confirm_password } = req.body;
 
-    const {
-      name,
-      email,
-      password,
-      confirm_password
-    } = req.body;
-
-    // VALIDASI
     if (!name || !email || !password || !confirm_password) {
       return res.status(400).json({ message: "Semua field wajib diisi" });
     }
@@ -30,323 +20,220 @@ const register = async (req, res) => {
       return res.status(400).json({ message: "Kata sandi minimal 6 karakter" });
     }
 
-    // PASSWORD MATCH
-    if (
-      password !==
-      confirm_password
-    ) {
+    if (password !== confirm_password) {
       return res.status(400).json({
-        message:
-          "Konfirmasi password tidak sama"
+        message: "Konfirmasi password tidak sama",
       });
     }
 
-    // CHECK EMAIL
-    const existingUser =
-      await User.findOne({
-        where: { email }
-      });
+    const existingUser = await User.findOne({
+      where: { email },
+    });
 
     if (existingUser) {
       return res.status(400).json({
-        message:
-          "Email sudah digunakan"
+        message: "Email sudah digunakan",
       });
     }
 
-    // HASH PASSWORD
-    const hashedPassword =
-      await bcrypt.hash(
-        password,
-        10
-      );
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // CREATE USER
-    const user =
-      await User.create({
-        name,
-        email,
-        password:
-          hashedPassword
-      });
-
-    res.status(201).json({
-      message:
-        "Register berhasil",
-
-      user: {
-        id:
-          user.id,
-
-        name:
-          user.name,
-
-        email:
-          user.email,
-
-        role:
-          user.role
-      }
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
     });
 
-  } catch (error) {
+    res.status(201).json({
+      message: "Register berhasil",
 
+      user: {
+        id: user.id,
+
+        name: user.name,
+
+        email: user.email,
+
+        role: user.role,
+      },
+    });
+  } catch (error) {
     console.error(error);
 
     res.status(500).json({
-      message:
-        "Server error",
-      error:
-        error.message
+      message: "Server error",
+      error: error.message,
     });
-
   }
-
 };
 
-
-// LOGIN
 const login = async (req, res) => {
-
   try {
+    const { email, password } = req.body;
 
-    const {
-      email,
-      password
-    } = req.body;
-
-    const user =
-      await User.findOne({
-        where: { email }
-      });
+    const user = await User.findOne({
+      where: { email },
+    });
 
     if (!user) {
       return res.status(404).json({
-        message:
-          "Email tidak ditemukan"
+        message: "Email tidak ditemukan",
       });
     }
 
     if (user.is_suspended) {
       return res.status(403).json({
-        message:
-          "Akun Anda telah ditangguhkan. Silakan hubungi admin."
+        message: "Akun Anda telah ditangguhkan. Silakan hubungi admin.",
       });
     }
 
-    const isPasswordMatch =
-      await bcrypt.compare(
-        password,
-        user.password
-      );
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
       return res.status(400).json({
-        message:
-          "Password salah"
+        message: "Password salah",
       });
     }
 
-    // JWT TOKEN
-    const token =
-      jwt.sign(
-        {
-          id: user.id,
-          email: user.email,
-          role: user.role
-        },
-        process.env.JWT_SECRET,
-        {
-          expiresIn:
-            process.env.JWT_EXPIRES
-        }
-      );
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRES,
+      },
+    );
 
     res.status(200).json({
-      message:
-        "Login berhasil",
+      message: "Login berhasil",
 
       token,
 
       user: {
-        id:
-          user.id,
+        id: user.id,
 
-        name:
-          user.name,
+        name: user.name,
 
-        email:
-          user.email,
+        email: user.email,
 
-        gender:
-          user.gender,
+        gender: user.gender,
 
-        age:
-          user.age,
+        age: user.age,
 
-        university:
-          user.university,
+        university: user.university,
 
-        major:
-          user.major,
+        major: user.major,
 
-        semester:
-          user.semester,
+        semester: user.semester,
 
-        profile_image:
-          user.profile_image,
+        profile_image: user.profile_image,
 
-        role:
-          user.role
-      }
+        role: user.role,
+      },
     });
-
   } catch (error) {
-
     res.status(500).json({
-      message:
-        "Server error",
-      error:
-        error.message
+      message: "Server error",
+      error: error.message,
     });
-
   }
-
 };
 
+const getProfile = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id);
 
-// GET PROFILE
-const getProfile =
-  async (req, res) => {
-
-    try {
-
-      const user =
-        await User.findByPk(
-          req.user.id
-        );
-
-      if (!user) {
-        return res.status(404).json({
-          message:
-            "User tidak ditemukan"
-        });
-      }
-
-      res.status(200).json({
-        id:
-          user.id,
-
-        name:
-          user.name,
-
-        email:
-          user.email,
-
-        gender:
-          user.gender,
-
-        age:
-          user.age,
-
-        university:
-          user.university,
-
-        major:
-          user.major,
-
-        semester:
-          user.semester,
-
-        profile_image:
-          user.profile_image,
-
-        role:
-          user.role
+    if (!user) {
+      return res.status(404).json({
+        message: "User tidak ditemukan",
       });
-
-    } catch (error) {
-
-      res.status(500).json({
-        message:
-          "Server error",
-        error:
-          error.message
-      });
-
     }
 
-  };
+    res.status(200).json({
+      id: user.id,
 
+      name: user.name,
 
-// UPDATE PROFILE
-const updateProfile =
-  async (req, res) => {
+      email: user.email,
 
-    try {
+      gender: user.gender,
 
-      const user =
-        await User.findByPk(
-          req.user.id
-        );
+      age: user.age,
 
-      if (!user) {
-        return res.status(404).json({
-          message:
-            "User tidak ditemukan"
-        });
-      }
+      university: user.university,
 
-      const {
-        name,
-        email,
-        gender,
-        age,
-        university,
-        major,
-        semester,
-        profile_image,
-        old_password,
-        new_password
-      } = req.body;
+      major: user.major,
 
-      let updateData = {
-        name,
-        email,
-        gender,
-        age,
-        university,
-        major,
-        semester,
-        profile_image,
-      };
+      semester: user.semester,
 
-      if (old_password && new_password) {
-        const isMatch = await bcrypt.compare(old_password, user.password);
-        if (!isMatch) {
-          return res.status(400).json({ message: "Kata sandi lama salah" });
-        }
-        updateData.password = await bcrypt.hash(new_password, 10);
-      }
+      profile_image: user.profile_image,
 
-      await user.update(updateData);
+      role: user.role,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
 
-      res.json(user);
+const updateProfile = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id);
 
-    } catch (error) {
-
-      res.status(500).json({
-        message:
-          "Server error",
-        error:
-          error.message
+    if (!user) {
+      return res.status(404).json({
+        message: "User tidak ditemukan",
       });
-
     }
 
-  };
+    const {
+      name,
+      email,
+      gender,
+      age,
+      university,
+      major,
+      semester,
+      profile_image,
+      old_password,
+      new_password,
+    } = req.body;
 
-// FORGOT PASSWORD
+    let updateData = {
+      name,
+      email,
+      gender,
+      age,
+      university,
+      major,
+      semester,
+      profile_image,
+    };
+
+    if (old_password && new_password) {
+      const isMatch = await bcrypt.compare(old_password, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ message: "Kata sandi lama salah" });
+      }
+      updateData.password = await bcrypt.hash(new_password, 10);
+    }
+
+    await user.update(updateData);
+
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
 const crypto = require("crypto");
 const { sendResetPasswordEmail } = require("../services/emailService");
 const { Op } = require("sequelize");
@@ -364,13 +251,13 @@ const forgotPassword = async (req, res) => {
     }
 
     const resetToken = crypto.randomBytes(32).toString("hex");
-    
+
     const resetTokenExpire = new Date();
     resetTokenExpire.setHours(resetTokenExpire.getHours() + 1);
 
     await user.update({
       reset_token: resetToken,
-      reset_token_expire: resetTokenExpire
+      reset_token_expire: resetTokenExpire,
     });
 
     await sendResetPasswordEmail(user.email, resetToken);
@@ -382,7 +269,6 @@ const forgotPassword = async (req, res) => {
   }
 };
 
-// RESET PASSWORD
 const resetPassword = async (req, res) => {
   try {
     const { token } = req.params;
@@ -393,20 +279,24 @@ const resetPassword = async (req, res) => {
     }
 
     if (password !== confirmPassword) {
-      return res.status(400).json({ message: "Konfirmasi password tidak sama" });
+      return res
+        .status(400)
+        .json({ message: "Konfirmasi password tidak sama" });
     }
 
     const user = await User.findOne({
       where: {
         reset_token: token,
         reset_token_expire: {
-          [Op.gt]: new Date()
-        }
-      }
+          [Op.gt]: new Date(),
+        },
+      },
     });
 
     if (!user) {
-      return res.status(400).json({ message: "Token tidak valid atau sudah kedaluwarsa" });
+      return res
+        .status(400)
+        .json({ message: "Token tidak valid atau sudah kedaluwarsa" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -414,7 +304,7 @@ const resetPassword = async (req, res) => {
     await user.update({
       password: hashedPassword,
       reset_token: null,
-      reset_token_expire: null
+      reset_token_expire: null,
     });
 
     res.status(200).json({ message: "Password berhasil diubah" });
@@ -424,12 +314,11 @@ const resetPassword = async (req, res) => {
   }
 };
 
-
 module.exports = {
   register,
   login,
   getProfile,
   updateProfile,
   forgotPassword,
-  resetPassword
+  resetPassword,
 };

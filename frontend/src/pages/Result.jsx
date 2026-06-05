@@ -1,12 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Sparkles, ArrowRight, RotateCcw, ArrowLeft, ListChecks } from 'lucide-react';
-import { ROUTES } from '../utils/constants';
-import ResultCard from '../components/result/ResultCard';
-import FactorBreakdown from '../components/result/FactorBreakdown';
-import LoadingScreen from '../components/common/LoadingScreen';
-import { getHistoryDetail } from '../services/historyService';
-import { getBurnoutColor, getMentalColor, formatBurnout, formatMental } from '../utils/format';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  Sparkles,
+  ArrowRight,
+  RotateCcw,
+  ArrowLeft,
+  ListChecks,
+} from "lucide-react";
+import { ROUTES } from "../utils/constants";
+import ResultCard from "../components/result/ResultCard";
+import FactorBreakdown from "../components/result/FactorBreakdown";
+import LoadingScreen from "../components/common/LoadingScreen";
+import { getHistoryDetail } from "../services/historyService";
+import {
+  getBurnoutColor,
+  getMentalColor,
+  formatBurnout,
+  formatMental,
+} from "../utils/format";
 
 function Result() {
   const navigate = useNavigate();
@@ -28,8 +39,8 @@ function Result() {
             fetchId = localData.id;
           } else {
             // Fallback: Jika tidak ada di localStorage (mungkin refresh atau login beda device),
-            // ambil id assessment terbaru dari dashboard
-            const { getDashboard } = await import('../services/dashboardService');
+            const { getDashboard } =
+              await import("../services/dashboardService");
             const dashboardData = await getDashboard();
             if (dashboardData?.latest?.id) {
               fetchId = dashboardData.latest.id;
@@ -51,42 +62,42 @@ function Result() {
     loadData();
   }, [urlId, isDetailMode]);
 
-  // Update Topbar Title dynamically if we are in History Detail mode
   useEffect(() => {
     if (isDetailMode && result?.createdAt) {
-      const dateStr = new Date(result.createdAt).toLocaleDateString('id-ID', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
+      const dateStr = new Date(result.createdAt).toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
       });
-      const titleEl = document.getElementById('topbar-title');
-      const subtitleEl = document.getElementById('topbar-subtitle');
+      const titleEl = document.getElementById("topbar-title");
+      const subtitleEl = document.getElementById("topbar-subtitle");
       if (titleEl) titleEl.innerText = dateStr;
-      if (subtitleEl) subtitleEl.innerText = 'Detail Riwayat Assessment';
+      if (subtitleEl) subtitleEl.innerText = "Detail Riwayat Assessment";
     }
   }, [result?.createdAt, isDetailMode]);
 
   const getFactorLevel = (val) => {
-    if (!val) return 'Tidak diketahui';
-    if (val >= 7) return 'Tinggi';
-    if (val >= 4) return 'Sedang';
-    return 'Rendah';
+    if (!val) return "Tidak diketahui";
+    if (val >= 7) return "Tinggi";
+    if (val >= 4) return "Sedang";
+    return "Rendah";
   };
 
   const getSleepLevel = (val) => {
-    if (!val) return 'Tidak diketahui';
-    if (val < 6) return 'Kurang';
-    if (val <= 8) return 'Cukup';
-    return 'Berlebih';
+    if (!val) return "Tidak diketahui";
+    if (val < 6) return "Kurang";
+    if (val <= 8) return "Cukup";
+    return "Berlebih";
   };
-
-
 
   const dominantFactors = [
     { label: "Stres", level: getFactorLevel(result?.stress) },
     { label: "Kecemasan", level: getFactorLevel(result?.anxiety) },
-    { label: "Tekanan Akademik", level: getFactorLevel(result?.academic_pressure) },
-    { label: "Tidur", level: getSleepLevel(result?.sleep_hours) }
+    {
+      label: "Tekanan Akademik",
+      level: getFactorLevel(result?.academic_pressure),
+    },
+    { label: "Tidur", level: getSleepLevel(result?.sleep_hours) },
   ];
 
   if (loading) {
@@ -96,10 +107,9 @@ function Result() {
   return (
     <div className="p-4 pb-24 md:p-10 md:pb-10 md:px-20 lg:px-32 bg-[#F8FAFC] min-h-screen flex flex-col gap-4 md:gap-6">
       <div className="w-full max-w-5xl mx-auto flex flex-col gap-4 md:gap-6">
-
         {/* Kartu Utama */}
-        <ResultCard 
-          burnoutLevel={result?.burnout_level} 
+        <ResultCard
+          burnoutLevel={result?.burnout_level}
           burnoutScore={result?.burnout_score}
         />
 
@@ -107,7 +117,9 @@ function Result() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
           <div className="bg-white rounded-2xl border-[0.67px] border-gray-200 p-4 md:p-6 shadow-sm flex flex-col">
             <div className="mb-4 md:mb-6">
-              <h3 className="text-lg font-medium text-neutral-950 leading-7 mb-1">Skor Detail</h3>
+              <h3 className="text-lg font-medium text-neutral-950 leading-7 mb-1">
+                Skor Detail
+              </h3>
               <p className="text-sm text-gray-500">
                 Metrik utama dari hasil analisis
               </p>
@@ -115,8 +127,12 @@ function Result() {
             <div className="flex flex-col gap-3 flex-1">
               <div className="bg-slate-50 rounded-[10px] border-[0.67px] border-gray-200 p-3 flex items-center justify-between">
                 <span className="text-sm text-gray-500">Kategori AI</span>
-                <div className={`px-3 py-1 border-[0.67px] rounded-lg ${getBurnoutColor(result?.burnout_level).bg} ${getBurnoutColor(result?.burnout_level).border}`}>
-                  <span className={`text-xs font-bold ${getBurnoutColor(result?.burnout_level).text}`}>
+                <div
+                  className={`px-3 py-1 border-[0.67px] rounded-lg ${getBurnoutColor(result?.burnout_level).bg} ${getBurnoutColor(result?.burnout_level).border}`}
+                >
+                  <span
+                    className={`text-xs font-bold ${getBurnoutColor(result?.burnout_level).text}`}
+                  >
                     {formatBurnout(result?.burnout_level)}
                   </span>
                 </div>
@@ -124,36 +140,69 @@ function Result() {
 
               <div className="bg-slate-50 rounded-[10px] border-[0.67px] border-gray-200 p-3 flex items-center justify-between">
                 <span className="text-sm text-gray-500">Kondisi Mental AI</span>
-                <div className={`px-3 py-1 border-[0.67px] rounded-lg ${getMentalColor(result?.Prediction?.mental_health_prediction).bg} ${getMentalColor(result?.Prediction?.mental_health_prediction).border}`}>
-                  <span className={`text-xs font-bold ${getMentalColor(result?.Prediction?.mental_health_prediction).text}`}>
+                <div
+                  className={`px-3 py-1 border-[0.67px] rounded-lg ${getMentalColor(result?.Prediction?.mental_health_prediction).bg} ${getMentalColor(result?.Prediction?.mental_health_prediction).border}`}
+                >
+                  <span
+                    className={`text-xs font-bold ${getMentalColor(result?.Prediction?.mental_health_prediction).text}`}
+                  >
                     {formatMental(result?.Prediction?.mental_health_prediction)}
                   </span>
                 </div>
               </div>
 
               <div className="bg-slate-50 rounded-[10px] border-[0.67px] border-gray-200 p-3 text-xs text-gray-600 mt-auto leading-relaxed">
-                <span className="font-semibold text-gray-800">Insight AI:</span> Berdasarkan hasil analisis, tingkat risiko burnout Anda berada di kategori <b>{formatBurnout(result?.burnout_level)}</b> dengan indikasi kesehatan mental <b>{formatMental(result?.Prediction?.mental_health_prediction)}</b>.
+                <span className="font-semibold text-gray-800">Insight AI:</span>{" "}
+                Berdasarkan hasil analisis, tingkat risiko burnout Anda berada
+                di kategori <b>{formatBurnout(result?.burnout_level)}</b> dengan
+                indikasi kesehatan mental{" "}
+                <b>
+                  {formatMental(result?.Prediction?.mental_health_prediction)}
+                </b>
+                .
               </div>
             </div>
           </div>
 
-          <FactorBreakdown factors={[
-            { label: 'Stres', value: (result?.stress || 0) * 10, level: getFactorLevel(result?.stress), color: 'danger' },
-            { label: 'Kecemasan', value: (result?.anxiety || 0) * 10, level: getFactorLevel(result?.anxiety), color: 'warning' },
-            { label: 'Beban Akademik', value: (result?.academic_pressure || 0) * 10, level: getFactorLevel(result?.academic_pressure), color: 'indigo' },
-          ]} />
+          <FactorBreakdown
+            factors={[
+              {
+                label: "Stres",
+                value: (result?.stress || 0) * 10,
+                level: getFactorLevel(result?.stress),
+                color: "danger",
+              },
+              {
+                label: "Kecemasan",
+                value: (result?.anxiety || 0) * 10,
+                level: getFactorLevel(result?.anxiety),
+                color: "warning",
+              },
+              {
+                label: "Beban Akademik",
+                value: (result?.academic_pressure || 0) * 10,
+                level: getFactorLevel(result?.academic_pressure),
+                color: "indigo",
+              },
+            ]}
+          />
         </div>
 
         {/* Faktor Dominan Burnout */}
         <div className="bg-white rounded-2xl border-[0.67px] border-gray-200 p-4 md:p-6 shadow-sm flex flex-col gap-3 md:gap-4">
-          <h3 className="text-lg font-medium text-neutral-950">Faktor Dominan Burnout</h3>
+          <h3 className="text-lg font-medium text-neutral-950">
+            Faktor Dominan Burnout
+          </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             {dominantFactors.map((f, i) => (
-              <div key={i} className="bg-slate-50 p-3 rounded-[10px] border-[0.67px] border-gray-200">
+              <div
+                key={i}
+                className="bg-slate-50 p-3 rounded-[10px] border-[0.67px] border-gray-200"
+              >
                 <p className="text-xs text-gray-500 mb-1">{f.label}</p>
-                <p className={
-                  `text-sm font-semibold ${f.level === 'Tinggi' || f.level === 'Kurang' ? 'text-red-600' : 'text-neutral-950'}`
-                }>
+                <p
+                  className={`text-sm font-semibold ${f.level === "Tinggi" || f.level === "Kurang" ? "text-red-600" : "text-neutral-950"}`}
+                >
                   {f.level}
                 </p>
               </div>
@@ -167,21 +216,30 @@ function Result() {
             <div className="w-8 h-8 rounded-[10px] bg-green-50 flex items-center justify-center">
               <ListChecks size={16} className="text-green-800" />
             </div>
-            <h3 className="text-lg font-medium text-neutral-950">To-Do Spesial (Dibuat Otomatis)</h3>
+            <h3 className="text-lg font-medium text-neutral-950">
+              To-Do Spesial (Dibuat Otomatis)
+            </h3>
           </div>
           <div className="flex flex-col gap-3">
             {todos.length > 0 ? (
-              todos.map(todo => (
-                <div key={todo.id} className="p-4 bg-slate-50 border border-slate-200 rounded-[10px] flex items-center gap-4">
+              todos.map((todo) => (
+                <div
+                  key={todo.id}
+                  className="p-4 bg-slate-50 border border-slate-200 rounded-[10px] flex items-center gap-4"
+                >
                   <div className="w-5 h-5 rounded-md border-2 border-slate-300 flex-shrink-0" />
                   <div>
-                    <p className="text-sm font-semibold text-neutral-950">{todo.title}</p>
+                    <p className="text-sm font-semibold text-neutral-950">
+                      {todo.title}
+                    </p>
                     <p className="text-xs text-gray-500">{todo.description}</p>
                   </div>
                 </div>
               ))
             ) : (
-              <p className="text-sm text-gray-500 italic p-4 bg-slate-50 rounded-[10px] border border-slate-200">Tidak ada Todo otomatis yang dibuat.</p>
+              <p className="text-sm text-gray-500 italic p-4 bg-slate-50 rounded-[10px] border border-slate-200">
+                Tidak ada Todo otomatis yang dibuat.
+              </p>
             )}
           </div>
         </div>
@@ -192,12 +250,17 @@ function Result() {
             <div className="w-8 h-8 rounded-[10px] bg-primary-50 flex items-center justify-center">
               <Sparkles size={16} className="text-primary-500" />
             </div>
-            <h3 className="text-lg font-medium text-neutral-950">Rekomendasi AI</h3>
+            <h3 className="text-lg font-medium text-neutral-950">
+              Rekomendasi AI
+            </h3>
           </div>
           <div className="flex flex-col gap-3">
             {result?.recommendation?.length > 0 ? (
               result.recommendation.map((item, index) => (
-                <div key={index} className="p-4 bg-slate-50 rounded-[10px] border-[0.67px] border-gray-200 text-gray-700 leading-relaxed">
+                <div
+                  key={index}
+                  className="p-4 bg-slate-50 rounded-[10px] border-[0.67px] border-gray-200 text-gray-700 leading-relaxed"
+                >
                   {item}
                 </div>
               ))
@@ -235,7 +298,6 @@ function Result() {
             </>
           )}
         </div>
-
       </div>
     </div>
   );

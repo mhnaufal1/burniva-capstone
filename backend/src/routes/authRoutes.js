@@ -1,53 +1,28 @@
-const express =
-require("express");
+const express = require("express");
 
-const router =
-express.Router();
+const router = express.Router();
 
 const {
- register,
- login,
- getProfile,
- updateProfile,
- forgotPassword,
- resetPassword
-} =
-require("../controllers/authController");
+  register,
+  login,
+  getProfile,
+  updateProfile,
+  forgotPassword,
+  resetPassword,
+} = require("../controllers/authController");
 
-const authMiddleware =
-require("../middleware/authMiddleware");
+const authMiddleware = require("../middleware/authMiddleware");
 
-router.post(
- "/register",
- register
-);
+router.post("/register", register);
 
-router.post(
- "/login",
- login
-);
+router.post("/login", login);
 
-router.get(
- "/profile",
- authMiddleware,
- getProfile
-);
+router.get("/profile", authMiddleware, getProfile);
 
-router.put(
- "/profile",
- authMiddleware,
- updateProfile
-);
+router.put("/profile", authMiddleware, updateProfile);
 
-router.post(
- "/forgot-password",
- forgotPassword
-);
+router.post("/forgot-password", forgotPassword);
 
-router.post(
- "/reset-password/:token",
- resetPassword
-);
+router.post("/reset-password/:token", resetPassword);
 
-module.exports =
-router;
+module.exports = router;

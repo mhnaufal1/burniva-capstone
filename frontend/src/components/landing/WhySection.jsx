@@ -1,21 +1,19 @@
-import { Check } from 'lucide-react'
+import { Check } from "lucide-react";
 
 const reasons = [
-  'Deteksi burnout lebih awal',
-  'Insight personal berbasis AI',
-  'Monitoring kondisi mental harian',
-  'To-do recovery otomatis',
-  'Membantu menjaga produktivitas',
-  'Dirancang khusus untuk mahasiswa'
-]
+  "Deteksi burnout lebih awal",
+  "Insight personal berbasis AI",
+  "Monitoring kondisi mental harian",
+  "To-do recovery otomatis",
+  "Membantu menjaga produktivitas",
+  "Dirancang khusus untuk mahasiswa",
+];
 
 function WhySection() {
   return (
     <section className="py-14 md:py-24 bg-[#FAFAFA] relative overflow-hidden">
       <div className="w-full px-4 md:px-16 lg:px-24">
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-
           {/* Bagian Kiri: Video Embed Placeholder */}
           <div className="order-2 lg:order-1 relative group w-full max-w-2xl mx-auto">
             {/* Soft Green Shadow Drop */}
@@ -43,7 +41,8 @@ function WhySection() {
               Mengapa Burniva?
             </h2>
             <p className="text-sm md:text-base text-slate-500 leading-relaxed mb-8 max-w-lg">
-              Burniva tidak hanya mendeteksi burnout, tetapi juga membantu kamu membangun rutinitas mental yang lebih sehat setiap hari.
+              Burniva tidak hanya mendeteksi burnout, tetapi juga membantu kamu
+              membangun rutinitas mental yang lebih sehat setiap hari.
             </p>
 
             <div className="flex flex-col gap-3 w-full max-w-md">
@@ -55,17 +54,17 @@ function WhySection() {
                   <div className="w-6 h-6 rounded-full bg-primary-50 text-primary-600 flex items-center justify-center shrink-0">
                     <Check strokeWidth={3} className="w-3.5 h-3.5" />
                   </div>
-                  <span className="text-sm md:text-base text-slate-700 font-medium">{reason}</span>
+                  <span className="text-sm md:text-base text-slate-700 font-medium">
+                    {reason}
+                  </span>
                 </div>
               ))}
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
-  )
+  );
 }
 
-export default WhySection
+export default WhySection;

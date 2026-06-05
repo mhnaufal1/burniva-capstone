@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
 @theme {
   /* Primary (006D5B - Deep Teal / Hijau Tua) */
@@ -21,7 +21,7 @@
   --color-secondary-200: #cedbd8;
   --color-secondary-300: #a8beba;
   --color-secondary-400: #9aaea9; /* Warna Asli */
-  --color-secondary-500: #78908a; 
+  --color-secondary-500: #78908a;
   --color-secondary-600: #617671;
   --color-secondary-700: #50615d;
   --color-secondary-800: #43504d;
@@ -53,14 +53,17 @@
   --color-border: #e5e7eb;
 
   /* Font */
-  --font-sans: 'Inter', sans-serif;
+  --font-sans: "Inter", sans-serif;
 
   /* Shadows */
-  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.07), 0 1px 2px -1px rgba(0, 0, 0, 0.07);
-  --shadow-card-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-card:
+    0 1px 3px 0 rgba(0, 0, 0, 0.07), 0 1px 2px -1px rgba(0, 0, 0, 0.07);
+  --shadow-card-hover:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
 
   @keyframes pulseLogo {
-    0%, 100% {
+    0%,
+    100% {
       transform: scale(1) translateY(0);
     }
     50% {
@@ -74,7 +77,7 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   background-color: #f8fafc;
   color: #0a0a0a;
   -webkit-font-smoothing: antialiased;
@@ -94,7 +97,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9AAEA9; /* Menggunakan warna sekunder saat scrollbar di-hover */
+  background: #9aaea9; /* Menggunakan warna sekunder saat scrollbar di-hover */
 }
 
 input[type="password"]::-ms-reveal,
@@ -118,7 +121,9 @@ input[type="range"]::-webkit-slider-thumb {
   border: 2px solid #ffffff;
   box-shadow: 0 2px 4px rgba(0, 109, 91, 0.2);
   cursor: pointer;
-  transition: transform 0.1s ease, background-color 0.1s ease;
+  transition:
+    transform 0.1s ease,
+    background-color 0.1s ease;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
@@ -134,7 +139,9 @@ input[type="range"]::-moz-range-thumb {
   border: 2px solid #ffffff;
   box-shadow: 0 2px 4px rgba(0, 109, 91, 0.2);
   cursor: pointer;
-  transition: transform 0.1s ease, background-color 0.1s ease;
+  transition:
+    transform 0.1s ease,
+    background-color 0.1s ease;
 }
 
 input[type="range"]::-moz-range-thumb:hover {

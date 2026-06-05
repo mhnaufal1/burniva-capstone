@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function RecommendationList({ recommendations }) {
   return (
@@ -16,13 +16,20 @@ function RecommendationList({ recommendations }) {
         {recommendations.map((rec, idx) => {
           const Icon = rec.icon;
           return (
-            <div key={idx} className="flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-[10px] border-[0.67px] border-gray-200 bg-white">
+            <div
+              key={idx}
+              className="flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-[10px] border-[0.67px] border-gray-200 bg-white"
+            >
               <div className="w-10 h-10 rounded-[10px] bg-blue-50 flex items-center justify-center flex-shrink-0">
                 <Icon size={18} className="text-blue-800" />
               </div>
               <div className="flex flex-col gap-0.5">
-                <h4 className="text-sm md:text-base font-medium text-gray-900 leading-6">{rec.title}</h4>
-                <p className="text-xs md:text-sm text-gray-500 leading-5">{rec.desc}</p>
+                <h4 className="text-sm md:text-base font-medium text-gray-900 leading-6">
+                  {rec.title}
+                </h4>
+                <p className="text-xs md:text-sm text-gray-500 leading-5">
+                  {rec.desc}
+                </p>
               </div>
             </div>
           );

@@ -1,6 +1,6 @@
-import logo from '../../assets/icons/Logo.svg'
+import logo from "../../assets/icons/Logo.svg";
 
-function LoadingScreen({ text = 'Memuat...' }) {
+function LoadingScreen({ text = "Memuat..." }) {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-white">
       <div className="flex flex-col items-center gap-4">
@@ -22,7 +22,7 @@ function LoadingScreen({ text = 'Memuat...' }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default LoadingScreen
+export default LoadingScreen;

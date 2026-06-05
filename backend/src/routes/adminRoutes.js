@@ -4,7 +4,6 @@ const adminController = require("../controllers/adminController");
 const authMiddleware = require("../middleware/authMiddleware");
 const adminMiddleware = require("../middleware/adminMiddleware");
 
-// Semua route di bawah ini diproteksi oleh authMiddleware dan adminMiddleware
 router.use(authMiddleware);
 router.use(adminMiddleware);
 

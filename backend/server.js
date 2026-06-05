@@ -14,25 +14,27 @@ require("./src/models");
 
 const app = express();
 
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://burniva-capstone.vercel.app",
-    process.env.FRONTEND_URL // Sebagai backup jika ada custom domain lain
-  ].filter(Boolean),
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://burniva-capstone.vercel.app",
+      process.env.FRONTEND_URL, // Sebagai backup jika ada custom domain lain
+    ].filter(Boolean),
+    credentials: true,
+  }),
+);
 app.use(
   express.json({
-    limit: '10mb'
-  })
+    limit: "10mb",
+  }),
 );
 
 app.use(
   express.urlencoded({
     extended: true,
-    limit: '10mb'
-  })
+    limit: "10mb",
+  }),
 );
 
 app.use("/api/v1/auth", authRoutes);
@@ -46,7 +48,7 @@ app.use("/api/v1/admin", adminRoutes);
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "success",
-    message: "Burniva Backend Running 🚀"
+    message: "Burniva Backend Running 🚀",
   });
 });
 
@@ -58,30 +60,22 @@ app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 5000;
 
-sequelize.authenticate()
+sequelize
+  .authenticate()
   .then(async () => {
-
-    console.log(
-      "Database connected successfully ✅"
-    );
+    console.log("Database connected successfully ✅");
 
     await sequelize.sync({
-      alter: true
+      alter: true,
     });
 
-    console.log(
-      "Database synchronized ✅"
-    );
+    console.log("Database synchronized ✅");
 
     app.listen(PORT, () => {
-      console.log(
-        `Server running on port ${PORT}`
-      );
+      console.log(`Server running on port ${PORT}`);
     });
-
   })
   .catch((error) => {
     console.error("Database connection failed ❌");
     console.error(error);
   });
-  

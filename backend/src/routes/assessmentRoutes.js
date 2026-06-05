@@ -1,32 +1,16 @@
-const express =
-  require('express')
+const express = require("express");
 
-const router =
-  express.Router()
+const router = express.Router();
 
-const authMiddleware =
-  require(
-    '../middleware/authMiddleware'
-  )
+const authMiddleware = require("../middleware/authMiddleware");
 
 const {
   createAssessment,
   resetTodayAssessment,
-} = require(
-  '../controllers/assessmentController'
-)
+} = require("../controllers/assessmentController");
 
-router.post(
-  '/',
-  authMiddleware,
-  createAssessment
-)
+router.post("/", authMiddleware, createAssessment);
 
-router.delete(
-  '/reset',
-  authMiddleware,
-  resetTodayAssessment
-)
+router.delete("/reset", authMiddleware, resetTodayAssessment);
 
-module.exports =
-  router
+module.exports = router;

@@ -1,10 +1,9 @@
-import { Code2, LineChart, Bot } from 'lucide-react'
+import { Code2, LineChart, Bot } from "lucide-react";
 
 function TeamStructure() {
   return (
     <section className="py-20 bg-slate-50 border-b border-slate-100">
       <div className="w-full px-4 md:px-16 lg:px-24">
-
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-[#006D5B] mb-4">
             Struktur Tim
@@ -15,7 +14,6 @@ function TeamStructure() {
         </div>
 
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-center gap-6 lg:gap-8 relative max-w-6xl mx-auto">
-
           {/* Garis Penghubung (Desktop) */}
           <div className="hidden lg:block absolute top-1/2 left-10 right-10 -translate-y-1/2 h-2 bg-[#006D5B] z-0"></div>
 
@@ -26,8 +24,12 @@ function TeamStructure() {
                 <Code2 size={16} />
                 <span>Full Stack Web Developer</span>
               </div>
-              <p className="text-[#006D5B] font-semibold text-[15px] mb-3">Mohammad Hafiz Naufal</p>
-              <p className="text-[#006D5B] font-semibold text-[15px]">Al Farizie</p>
+              <p className="text-[#006D5B] font-semibold text-[15px] mb-3">
+                Mohammad Hafiz Naufal
+              </p>
+              <p className="text-[#006D5B] font-semibold text-[15px]">
+                Al Farizie
+              </p>
             </div>
           </div>
 
@@ -38,8 +40,12 @@ function TeamStructure() {
                 <LineChart size={16} />
                 <span>Data Scientist Team</span>
               </div>
-              <p className="text-[#006D5B] font-semibold text-[15px] mb-3">Rieftian Havil Syawalludy</p>
-              <p className="text-[#006D5B] font-semibold text-[15px]">Rezha Dwi Cahya Ardinata</p>
+              <p className="text-[#006D5B] font-semibold text-[15px] mb-3">
+                Rieftian Havil Syawalludy
+              </p>
+              <p className="text-[#006D5B] font-semibold text-[15px]">
+                Rezha Dwi Cahya Ardinata
+              </p>
             </div>
           </div>
 
@@ -50,16 +56,18 @@ function TeamStructure() {
                 <Bot size={16} />
                 <span>AI Engineer Team</span>
               </div>
-              <p className="text-[#006D5B] font-semibold text-[15px] mb-3">Hafizh Umar Haq</p>
-              <p className="text-[#006D5B] font-semibold text-[15px]">Khalisah Hasna Naila Shifa</p>
+              <p className="text-[#006D5B] font-semibold text-[15px] mb-3">
+                Hafizh Umar Haq
+              </p>
+              <p className="text-[#006D5B] font-semibold text-[15px]">
+                Khalisah Hasna Naila Shifa
+              </p>
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
-  )
+  );
 }
 
-export default TeamStructure
+export default TeamStructure;

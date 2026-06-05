@@ -1,7 +1,6 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-// Konfigurasi transporter menggunakan SMTP Gmail
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -10,11 +9,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Fungsi untuk mengirim email reset password
 const sendResetPasswordEmail = async (toEmail, resetToken) => {
   try {
-    // Gunakan CLIENT_URL atau FRONTEND_URL dari .env
-    const clientUrl = process.env.CLIENT_URL || process.env.FRONTEND_URL || "http://localhost:5173";
+    const clientUrl =
+      process.env.CLIENT_URL ||
+      process.env.FRONTEND_URL ||
+      "http://localhost:5173";
     const resetUrl = `${clientUrl}/reset-password/${resetToken}`;
 
     const mailOptions = {
@@ -49,7 +49,6 @@ const sendResetPasswordEmail = async (toEmail, resetToken) => {
     const info = await transporter.sendMail(mailOptions);
     console.log("Email reset terkirim: " + info.response);
     return true;
-
   } catch (error) {
     console.error("Gagal mengirim email reset:", error);
     throw new Error("Gagal mengirim email reset.");

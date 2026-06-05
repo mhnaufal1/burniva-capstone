@@ -1,32 +1,50 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { ArrowRight, CheckCircle2, ShieldCheck, Activity, CalendarCheck, Calendar, Clock, Sparkles, BrainCircuit, RotateCcw } from 'lucide-react'
-import { ROUTES } from '../utils/constants'
-import StepIndicator from '../components/form/StepIndicator'
-import MentalStep from '../components/form/MentalStep'
-import AcademicStep from '../components/form/AcademicStep'
-import LifestyleStep from '../components/form/LifestyleStep'
-import ReviewStep from '../components/form/ReviewStep'
-import LoadingScreen from '../components/common/LoadingScreen'
-import { createAssessment, resetAssessmentToday } from '../services/assessmentService'
-import ConfirmationModal from '../components/common/ConfirmationModal'
-import { getDashboard } from '../services/dashboardService'
-import { motion } from 'framer-motion'
-import useAuthStore from '../store/auth/useAuthStore'
-import { isToday } from '../utils/helpers'
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  ArrowRight,
+  CheckCircle2,
+  ShieldCheck,
+  Activity,
+  CalendarCheck,
+  Calendar,
+  Clock,
+  Sparkles,
+  BrainCircuit,
+  RotateCcw,
+} from "lucide-react";
+import { ROUTES } from "../utils/constants";
+import StepIndicator from "../components/form/StepIndicator";
+import MentalStep from "../components/form/MentalStep";
+import AcademicStep from "../components/form/AcademicStep";
+import LifestyleStep from "../components/form/LifestyleStep";
+import ReviewStep from "../components/form/ReviewStep";
+import LoadingScreen from "../components/common/LoadingScreen";
+import {
+  createAssessment,
+  resetAssessmentToday,
+} from "../services/assessmentService";
+import ConfirmationModal from "../components/common/ConfirmationModal";
+import { getDashboard } from "../services/dashboardService";
+import { motion } from "framer-motion";
+import useAuthStore from "../store/auth/useAuthStore";
+import { isToday } from "../utils/helpers";
 
 function Input() {
-  const navigate = useNavigate()
-  const user = useAuthStore(state => state.user)
-  const [step, setStep] = useState(1)
+  const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
+  const [step, setStep] = useState(1);
 
-  // Status UX
-  const [isChecking, setIsChecking] = useState(true)
-  const [isLocked, setIsLocked] = useState(false)
-  const [isProfileIncomplete, setIsProfileIncomplete] = useState(false)
-  const [isAnalyzing, setIsAnalyzing] = useState(false)
-  const [latestId, setLatestId] = useState(null)
-  const [confirmModal, setConfirmModal] = useState({ isOpen: false, title: '', message: '', onConfirm: null })
+  const [isChecking, setIsChecking] = useState(true);
+  const [isLocked, setIsLocked] = useState(false);
+  const [isProfileIncomplete, setIsProfileIncomplete] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [latestId, setLatestId] = useState(null);
+  const [confirmModal, setConfirmModal] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    onConfirm: null,
+  });
 
   const [formData, setFormData] = useState({
     stress: 5,
@@ -39,14 +57,12 @@ function Input() {
     family_expectation: 5,
     social_support: 5,
     activity_hours: 0,
-    mood_today: 'Biasa'
+    mood_today: "Biasa",
   });
 
-  // Validasi awal (Silent Check)
   useEffect(() => {
     const checkDailyInput = async () => {
       try {
-        // Cek kelengkapan profil terlebih dahulu (Univ, Prodi, Semester)
         if (!user?.university || !user?.major || !user?.semester) {
           setIsProfileIncomplete(true);
           return; // Hentikan eksekusi, tampilkan halaman blokir
@@ -61,9 +77,8 @@ function Input() {
           }
         }
       } catch (error) {
-        console.error('Gagal mengecek status input harian:', error);
+        console.error("Gagal mengecek status input harian:", error);
       } finally {
-        // Beri sedikit jeda agar transisi loading terlihat elegan (opsional)
         setTimeout(() => setIsChecking(false), 800);
       }
     };
@@ -73,31 +88,35 @@ function Input() {
   const handleResetInput = () => {
     setConfirmModal({
       isOpen: true,
-      title: 'Reset & Input Ulang',
-      message: 'Data assessment dan rekomendasi Todo Anda hari ini akan dihapus. Anda harus mengisi ulang dari awal. Apakah Anda yakin?',
+      title: "Reset & Input Ulang",
+      message:
+        "Data assessment dan rekomendasi Todo Anda hari ini akan dihapus. Anda harus mengisi ulang dari awal. Apakah Anda yakin?",
       onConfirm: async () => {
         try {
           await resetAssessmentToday();
-          setConfirmModal(prev => ({ ...prev, isOpen: false }));
+          setConfirmModal((prev) => ({ ...prev, isOpen: false }));
           setIsLocked(false);
           setLatestId(null);
           setStep(1);
         } catch (error) {
           console.error("Gagal melakukan reset:", error);
-          alert(error.response?.data?.message || "Terjadi kesalahan saat reset data");
+          alert(
+            error.response?.data?.message ||
+              "Terjadi kesalahan saat reset data",
+          );
         }
-      }
+      },
     });
   };
 
   const handleNext = () => {
-    if (step < 4) setStep(step + 1)
-  }
+    if (step < 4) setStep(step + 1);
+  };
 
   const handleBack = () => {
-    if (step > 1) setStep(step - 1)
-    else navigate(ROUTES.DASHBOARD)
-  }
+    if (step > 1) setStep(step - 1);
+    else navigate(ROUTES.DASHBOARD);
+  };
 
   const handleAnalysis = async () => {
     try {
@@ -114,15 +133,13 @@ function Input() {
   };
 
   useEffect(() => {
-    // Reset scroll ketika pindah antar step di halaman yang sama
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-    const mainElement = document.getElementById('main-content-wrapper');
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    const mainElement = document.getElementById("main-content-wrapper");
     if (mainElement) {
       mainElement.scrollTop = 0;
     }
   }, [step]);
 
-  // 1. STATE: LOADING (Mengecek Status)
   if (isChecking) {
     return (
       <div className="h-full min-h-[80vh] w-full flex items-center justify-center bg-[#F8FAFC] p-4">
@@ -138,16 +155,18 @@ function Input() {
               <ShieldCheck className="text-primary-500 w-8 h-8" />
             </div>
           </div>
-          <h2 className="text-xl font-bold text-slate-800 mb-2">Mengecek Status Harian...</h2>
+          <h2 className="text-xl font-bold text-slate-800 mb-2">
+            Mengecek Status Harian...
+          </h2>
           <p className="text-sm text-slate-500 leading-relaxed">
-            Kami sedang memverifikasi apakah kamu sudah melakukan assessment hari ini.
+            Kami sedang memverifikasi apakah kamu sudah melakukan assessment
+            hari ini.
           </p>
         </motion.div>
       </div>
-    )
+    );
   }
 
-  // 2. STATE: LOCKED (Sudah Isi Hari Ini)
   if (isLocked) {
     return (
       <div className="h-full min-h-[80vh] w-full flex items-center justify-center bg-[#F8FAFC] p-4">
@@ -170,13 +189,17 @@ function Input() {
             >
               <CheckCircle2 className="w-8 h-8 text-primary-500" />
             </motion.div>
-            <h2 className="text-xl font-bold text-white relative z-10 text-center">Cek Harian Hari Ini Sudah Selesai</h2>
+            <h2 className="text-xl font-bold text-white relative z-10 text-center">
+              Cek Harian Hari Ini Sudah Selesai
+            </h2>
           </div>
 
           {/* Content */}
           <div className="p-6">
             <p className="text-slate-600 text-center text-[13.5px] leading-relaxed mb-5">
-              Terima kasih telah melakukan check-in hari ini. Hasil assessmentmu telah tersimpan dan siap dianalisis. Kembali lagi besok untuk memantau perkembangan kondisi mentalmu secara berkala.
+              Terima kasih telah melakukan check-in hari ini. Hasil assessmentmu
+              telah tersimpan dan siap dianalisis. Kembali lagi besok untuk
+              memantau perkembangan kondisi mentalmu secara berkala.
             </p>
 
             {/* Info Card */}
@@ -186,13 +209,24 @@ function Input() {
                   <Calendar className="w-5 h-5 text-primary-500" />
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-slate-500">Tanggal Assessment</p>
-                  <p className="text-sm font-bold text-slate-800">{new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                  <p className="text-xs font-medium text-slate-500">
+                    Tanggal Assessment
+                  </p>
+                  <p className="text-sm font-bold text-slate-800">
+                    {new Date().toLocaleDateString("id-ID", {
+                      weekday: "long",
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-full border border-emerald-200">
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                <span className="text-[11px] font-bold tracking-wide uppercase">Terekam</span>
+                <span className="text-[11px] font-bold tracking-wide uppercase">
+                  Terekam
+                </span>
               </div>
             </div>
 
@@ -220,23 +254,24 @@ function Input() {
               </button>
             </div>
           </div>
-          
+
           <ConfirmationModal
             isOpen={confirmModal.isOpen}
             title={confirmModal.title}
             message={confirmModal.message}
             onConfirm={confirmModal.onConfirm}
-            onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+            onClose={() =>
+              setConfirmModal((prev) => ({ ...prev, isOpen: false }))
+            }
             confirmText="Ya, Reset"
             cancelText="Batal"
             variant="warning"
           />
         </motion.div>
       </div>
-    )
+    );
   }
 
-  // 2.5 STATE: PROFIL BELUM LENGKAP
   if (isProfileIncomplete) {
     return (
       <div className="h-full min-h-[80vh] w-full flex items-center justify-center bg-[#F8FAFC] p-4">
@@ -259,13 +294,16 @@ function Input() {
             >
               <ShieldCheck className="w-10 h-10 text-amber-500" />
             </motion.div>
-            <h2 className="text-2xl font-bold text-white relative z-10 text-center">Profil Belum Lengkap</h2>
+            <h2 className="text-2xl font-bold text-white relative z-10 text-center">
+              Profil Belum Lengkap
+            </h2>
           </div>
 
           {/* Content */}
           <div className="p-8">
             <p className="text-slate-600 text-center text-sm leading-relaxed mb-6">
-              Lengkapi profil kamu terlebih dahulu untuk mengakses seluruh fitur BURNIVA dan mendapatkan pengalaman penggunaan yang lebih baik.
+              Lengkapi profil kamu terlebih dahulu untuk mengakses seluruh fitur
+              BURNIVA dan mendapatkan pengalaman penggunaan yang lebih baik.
             </p>
 
             {/* Actions */}
@@ -286,34 +324,38 @@ function Input() {
           </div>
         </motion.div>
       </div>
-    )
+    );
   }
 
-  // 3. STATE: MENGANALISIS (Saat submit)
   if (isAnalyzing) {
-    return <LoadingScreen text="Menganalisis data kamu..." />
+    return <LoadingScreen text="Menganalisis data kamu..." />;
   }
 
-  // 4. STATE: FORM INPUT NORMAL
   return (
     <div className="p-3 pb-24 md:p-10 md:pb-10 w-full max-w-4xl mx-auto min-h-screen bg-[#F8FAFC] flex flex-col pt-6 md:pt-12">
-
-
       {/* FORM SECTION */}
       <StepIndicator currentStep={step} />
       <div className="bg-white rounded-2xl border-[0.67px] border-gray-200 shadow-sm p-4 md:p-10 flex flex-col gap-5 md:gap-10">
         <div className="py-2">
-          {step === 1 && <MentalStep formData={formData} setFormData={setFormData} />}
-          {step === 2 && <AcademicStep formData={formData} setFormData={setFormData} />}
-          {step === 3 && <LifestyleStep formData={formData} setFormData={setFormData} />}
-          {step === 4 && <ReviewStep formData={formData} setFormData={setFormData} />}
+          {step === 1 && (
+            <MentalStep formData={formData} setFormData={setFormData} />
+          )}
+          {step === 2 && (
+            <AcademicStep formData={formData} setFormData={setFormData} />
+          )}
+          {step === 3 && (
+            <LifestyleStep formData={formData} setFormData={setFormData} />
+          )}
+          {step === 4 && (
+            <ReviewStep formData={formData} setFormData={setFormData} />
+          )}
         </div>
         <div className="flex items-center justify-between pt-6 border-t-[0.67px] border-gray-200">
           <button
             onClick={handleBack}
             className="h-10 md:h-11 min-w-[90px] md:min-w-[112px] px-4 md:px-6 rounded-lg md:rounded-[10px] outline outline-[0.67px] outline-offset-[-0.67px] outline-gray-200 text-neutral-950 text-sm md:text-base font-medium hover:bg-gray-50 transition-colors flex items-center justify-center"
           >
-            {step === 1 ? 'Batal' : 'Kembali'}
+            {step === 1 ? "Batal" : "Kembali"}
           </button>
           {step < 4 ? (
             <button
@@ -334,7 +376,7 @@ function Input() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Input
+export default Input;

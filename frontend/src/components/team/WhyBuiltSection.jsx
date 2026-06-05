@@ -1,16 +1,22 @@
-import { Sparkles } from 'lucide-react'
-import logoImg from '../../assets/icons/Logo.svg'
+import { Sparkles } from "lucide-react";
+import logoImg from "../../assets/icons/Logo.svg";
 
 function WhyBuiltSection() {
   return (
-    <section id="about" className="py-20 md:py-32 bg-slate-50 border-y border-slate-100">
+    <section
+      id="about"
+      className="py-20 md:py-32 bg-slate-50 border-y border-slate-100"
+    >
       <div className="w-full px-4 md:px-16 lg:px-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center max-w-6xl mx-auto">
-
           {/* Kiri: Logo Card */}
           <div className="order-2 lg:order-1 w-full flex justify-center lg:justify-end">
             <div className="bg-white rounded-[32px] p-12 md:p-16 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100/50 flex items-center justify-center w-full max-w-md aspect-[4/3]">
-              <img src={logoImg} alt="Burniva Logo" className="w-40 md:w-52 h-auto" />
+              <img
+                src={logoImg}
+                alt="Burniva Logo"
+                className="w-40 md:w-52 h-auto"
+              />
             </div>
           </div>
 
@@ -28,14 +34,17 @@ function WhyBuiltSection() {
             <div className="w-16 h-1 bg-[#006D5B] mb-8 rounded-full"></div>
 
             <p className="text-base text-slate-500 leading-relaxed">
-              Burniva hadir sebagai bentuk kepedulian terhadap meningkatnya tingkat burnout pada mahasiswa akibat tekanan akademik, sosial, maupun personal. Kami percaya bahwa kolaborasi multidisiplin antara rekayasa perangkat lunak, sains data, dan kecerdasan buatan dapat menciptakan solusi preventif yang berdampak nyata.
+              Burniva hadir sebagai bentuk kepedulian terhadap meningkatnya
+              tingkat burnout pada mahasiswa akibat tekanan akademik, sosial,
+              maupun personal. Kami percaya bahwa kolaborasi multidisiplin
+              antara rekayasa perangkat lunak, sains data, dan kecerdasan buatan
+              dapat menciptakan solusi preventif yang berdampak nyata.
             </p>
           </div>
-
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default WhyBuiltSection
+export default WhyBuiltSection;

@@ -1,41 +1,51 @@
-import { User, LineChart, Sparkles, Palette } from 'lucide-react'
-import logoCol from '../../assets/icons/Logo.svg'
+import { User, LineChart, Sparkles, Palette } from "lucide-react";
+import logoCol from "../../assets/icons/Logo.svg";
 
 const logoElements = [
   {
     icon: <User size={24} />,
-    title: 'Siluet Kepala',
-    description: 'Melambangkan kesehatan mental dan kesadaran diri. Bentuk kepala manusia menjadi simbol utama yang merepresentasikan fokus Burniva terhadap kesejahteraan psikologis mahasiswa. Elemen ini menggambarkan bahwa setiap perjalanan menuju kondisi mental yang lebih baik selalu dimulai dari pemahaman terhadap diri sendiri.'
+    title: "Siluet Kepala",
+    description:
+      "Melambangkan kesehatan mental dan kesadaran diri. Bentuk kepala manusia menjadi simbol utama yang merepresentasikan fokus Burniva terhadap kesejahteraan psikologis mahasiswa. Elemen ini menggambarkan bahwa setiap perjalanan menuju kondisi mental yang lebih baik selalu dimulai dari pemahaman terhadap diri sendiri.",
   },
   {
     icon: <LineChart size={24} />,
-    title: 'Grafik Pertumbuhan',
-    description: 'Melambangkan perkembangan dan pemulihan. Garis grafik yang bergerak naik menunjukkan proses pertumbuhan yang positif. Elemen ini merepresentasikan pemantauan kondisi harian, perkembangan kesehatan mental, peningkatan kualitas hidup, dan kemajuan kecil yang terjadi secara konsisten.'
+    title: "Grafik Pertumbuhan",
+    description:
+      "Melambangkan perkembangan dan pemulihan. Garis grafik yang bergerak naik menunjukkan proses pertumbuhan yang positif. Elemen ini merepresentasikan pemantauan kondisi harian, perkembangan kesehatan mental, peningkatan kualitas hidup, dan kemajuan kecil yang terjadi secara konsisten.",
   },
   {
     icon: <Sparkles size={24} />,
-    title: 'Bintang',
-    description: 'Bintang melambangkan kecerdasan, insight, dan harapan. Sebagai elemen yang terinspirasi dari peran Artificial Intelligence dalam Burniva, bintang merepresentasikan kemampuan sistem untuk mengubah data menjadi pemahaman yang membantu pengguna mengenali risiko burnout lebih awal dan mengambil langkah yang tepat.'
+    title: "Bintang",
+    description:
+      "Bintang melambangkan kecerdasan, insight, dan harapan. Sebagai elemen yang terinspirasi dari peran Artificial Intelligence dalam Burniva, bintang merepresentasikan kemampuan sistem untuk mengubah data menjadi pemahaman yang membantu pengguna mengenali risiko burnout lebih awal dan mengambil langkah yang tepat.",
   },
   {
     icon: <Palette size={24} />,
-    title: 'Warna Hijau',
-    description: 'Melambangkan ketenangan, keseimbangan, dan pemulihan. Warna utama Burniva dipilih karena memiliki asosiasi yang kuat dengan kesehatan, ketenangan pikiran, rasa aman, stabilitas emosional, dan pertumbuhan.'
-  }
-]
+    title: "Warna Hijau",
+    description:
+      "Melambangkan ketenangan, keseimbangan, dan pemulihan. Warna utama Burniva dipilih karena memiliki asosiasi yang kuat dengan kesehatan, ketenangan pikiran, rasa aman, stabilitas emosional, dan pertumbuhan.",
+  },
+];
 
 function LogoPhilosophy() {
   return (
     <section className="py-20 bg-[#F8FAFC]">
       <div className="w-full px-4 md:px-12 lg:px-16 max-w-[1400px] mx-auto text-center">
-
         <div className="mb-16">
-          <img src={logoCol} alt="Burniva Logo" className="w-16 h-16 mx-auto mb-6 object-contain" />
+          <img
+            src={logoCol}
+            alt="Burniva Logo"
+            className="w-16 h-16 mx-auto mb-6 object-contain"
+          />
           <h2 className="text-2xl md:text-3xl font-bold text-[#0F172A] mb-6">
             Filosofi Logo Burniva
           </h2>
           <p className="text-[15px] md:text-base text-slate-500 leading-relaxed max-w-2xl mx-auto">
-            Logo Burniva menggambarkan perjalanan seseorang dalam memahami kondisi mentalnya, mengenali risiko burnout sejak dini, dan bertumbuh menuju kondisi yang lebih sehat melalui kesadaran diri, pemantauan berkelanjutan, dan dukungan teknologi.
+            Logo Burniva menggambarkan perjalanan seseorang dalam memahami
+            kondisi mentalnya, mengenali risiko burnout sejak dini, dan
+            bertumbuh menuju kondisi yang lebih sehat melalui kesadaran diri,
+            pemantauan berkelanjutan, dan dukungan teknologi.
           </p>
         </div>
 
@@ -57,10 +67,9 @@ function LogoPhilosophy() {
             </div>
           ))}
         </div>
-
       </div>
     </section>
-  )
+  );
 }
 
-export default LogoPhilosophy
+export default LogoPhilosophy;
